@@ -1,0 +1,33 @@
+[
+    {
+        "Title": "Hard",
+        "Author": "ClonedPuffin",
+        "Description": "",
+        "SettingsVersion": "0.6b",
+        "Values": {
+            "AdjustSpellPoints": {
+                "BaseSpellPoints": "0",
+                "SpellPointsMultiplier": "0.8"
+            },
+            "ToHitAdjustments": {
+                "BonusChanceToHitMonster": "25",
+                "BonusChanceToHitPlayer": "-10"
+            },
+            "AttackCalculation": {
+                "PlayerCritDamageMultiplier": "0.5",
+                "EnemyHitChanceMultiplier": "1.1",
+                "PlayerHitChanceMultiplier": "0.9"
+            },
+            "StartingHealth": {
+                "BonusMultiplier": "1"
+            },
+            "AttributePointsOnLevel": {
+                "AttributePointsLoss": "4"
+            },
+            "Features": {
+                "EnduranceHealingRate": "False"
+            }
+        },
+        "$version": "v1"
+    }
+]

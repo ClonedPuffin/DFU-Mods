@@ -1,0 +1,15 @@
+{
+    "ModTitle": "System Overhaul",
+    "ModVersion": "0.6b",
+    "ModAuthor": "ClonedPuffin",
+    "ContactInfo": "",
+    "DFUnity_Version": "1.1.0",
+    "ModDescription": "Tweaks many things and allows options to balance the systems in the game.",
+    "GUID": "27d7758d-cd5e-4246-b4c9-6bba00aca010",
+    "Files": [
+        "Assets/Game/Mods/System Overhaul/FormulaAdjust.cs",
+        "Assets/Game/Mods/System Overhaul/modsettings.json",
+        "Assets/Game/Mods/System Overhaul/SystemOverhaul.dfmod.json",
+        "Assets/Game/Mods/System Overhaul/modpresets.json"
+    ]
+}

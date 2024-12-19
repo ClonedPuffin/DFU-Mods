@@ -1,0 +1,292 @@
+{
+    "Version": "0.6b",
+    "Sections": [
+        {
+            "Name": "Features",
+            "Description": "Enable or disable components",
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Value": true,
+                    "Name": "AttributePointOnLevel",
+                    "Description": "Change attribute points per level to a gemetric formula (less max points each level)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "StartingHealth",
+                    "Description": "Overrides Starting Health formula with new values",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "EnduranceHealingRate",
+                    "Description": "Change endurance Healing Rate from -5/+5 to -10/+10",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "EnduranceHealthBonus",
+                    "Description": "Change endurance formula from -5/+5 -10/+10 or -/+ (max HP per level)/2 if its higher than 10",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "AgilityToHitMod",
+                    "Description": "Change willpower formula from -5/+5 to -20/+20 hit chance",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "WillpowerMagicResist",
+                    "Description": "Change willpower formula from -5/+5 to -10/+10 magic resist",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "GoverningAttributes",
+                    "Description": "Governing Attributes affect skill gain rate.",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "AttackCalculation",
+                    "Description": "Change many parts of the attack roll",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "ToHitAdjustments",
+                    "Description": "Change the inherant hit chance bonuses to player and monsters",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "WeaponToHitMultiplier",
+                    "Description": "Changes weapon material hit chance",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "AdjustSpellPoints",
+                    "Description": "Adjust amount of Spell Points",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                }
+            ],
+            "$version": "v1"
+        },
+        {
+            "Name": "AttributePointsOnLevel",
+            "Description": null,
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Min": 100,
+                    "Max": 250,
+                    "Value": 180,
+                    "Name": "AttributePointsGoal",
+                    "Description": "Desired amount of AP to converge towards when max level (Default 180)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
+                },
+                {
+                    "Min": 0,
+                    "Max": 12,
+                    "Value": 2,
+                    "Name": "AttributePointsLoss",
+                    "Description": "Amount of AP lower than the Goal Amount you can roll each level (Default 2)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
+                }
+            ],
+            "$version": "v1"
+        },
+        {
+            "Name": "StartingHealth",
+            "Description": null,
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Min": 10,
+                    "Max": 100,
+                    "Value": 30,
+                    "Name": "BaseHealth",
+                    "Description": "Base health (New Default: 30, Original: 25)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "EnduranceBonus",
+                    "Description": "Add HP bonus from endurance to start health. (New Default: true, Original: false)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Min": 0.0,
+                    "Max": 5.0,
+                    "Value": 2.0,
+                    "Name": "BonusMultiplier",
+                    "Description": "Multiplier for Max Class HP + Endurance Bonus added at start (New Default: 2, Original: 1)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderFloatKey"
+                }
+            ],
+            "$version": "v1"
+        },
+        {
+            "Name": "AttackCalculation",
+            "Description": null,
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Value": true,
+                    "Name": "AllowCrits",
+                    "Description": "If attacks can deal critical damage",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Min": 0.0,
+                    "Max": 5.0,
+                    "Value": 1.0,
+                    "Name": "PlayerHitChanceMultiplier",
+                    "Description": "Multiply players chance to hit. A 0 would disable player crits. (Default: 1)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderFloatKey"
+                },
+                {
+                    "Min": 0.1,
+                    "Max": 5.1,
+                    "Value": 1.0,
+                    "Name": "PlayerCritDamageMultiplier",
+                    "Description": "Multiply enemy crit damage, using crit formula as base. (Default: 1)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderFloatKey"
+                },
+                {
+                    "Min": 0.0,
+                    "Max": 5.0,
+                    "Value": 1.0,
+                    "Name": "EnemyHitChanceMultiplier",
+                    "Description": "Multiply players chance to hit. A 0 would disable player crits. (Default: 1)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderFloatKey"
+                },
+                {
+                    "Min": 0.1,
+                    "Max": 5.1,
+                    "Value": 1.0,
+                    "Name": "EnemyCritDamageMultiplier",
+                    "Description": "Multiply enemy crit damage, using crit formula as base. (Default: 1)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderFloatKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "MoreEnemyDamageModifications",
+                    "Description": "This change damage against more enemies than skeletal warriors, inspired by other Elder Scrolls Games",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Value": true,
+                    "Name": "MaterialDamageReduction",
+                    "Description": "Ineffective materials reduce damage 3/(4*levelsUnder) instead of dealing no damage ",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.ToggleKey"
+                },
+                {
+                    "Min": 0.0,
+                    "Max": 5.0,
+                    "Value": 2.0,
+                    "Name": "MaterialDamageMultiplier",
+                    "Description": "Multiply how much materials damage (New Default: 2, Original: 1)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderFloatKey"
+                }
+            ],
+            "$version": "v1"
+        },
+        {
+            "Name": "ToHitAdjustments",
+            "Description": null,
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Min": -50,
+                    "Max": 50,
+                    "Value": -25,
+                    "Name": "BonusChanceToHitPlayer",
+                    "Description": "Modified chance for enemies to hit player (New Default: -25, Original: 0)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
+                },
+                {
+                    "Min": -50,
+                    "Max": 50,
+                    "Value": 25,
+                    "Name": "BonusChanceToHitMonster",
+                    "Description": "Modified chance for player to hit monsters (New Default: 25, Original: 40)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
+                }
+            ],
+            "$version": "v1"
+        },
+        {
+            "Name": "WeaponToHitMultiplier",
+            "Description": null,
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Min": 0.0,
+                    "Max": 10.0,
+                    "Value": 1.0,
+                    "Name": "MaterialToHitMultiplier",
+                    "Description": "Multiply how much materials affect hit chance (New Default: 1, Original: 10)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderFloatKey"
+                }
+            ],
+            "$version": "v1"
+        },
+        {
+            "Name": "AdjustSpellPoints",
+            "Description": null,
+            "IsAdvanced": false,
+            "Keys": [
+                {
+                    "Min": 0,
+                    "Max": 200,
+                    "Value": 30,
+                    "Name": "BaseSpellPoints",
+                    "Description": "Add base spell point not dependant on Intelligence. (New Default: 30, Original: 0)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderIntKey"
+                },
+                {
+                    "Min": 0.0,
+                    "Max": 5.0,
+                    "Value": 1.5,
+                    "Name": "SpellPointsMultiplier",
+                    "Description": "Multiply spellpoints for all classes. (New Default: 1.5, Original: 1)",
+                    "$version": "v1",
+                    "$type": "DaggerfallWorkshop.Game.Utility.ModSupport.ModSettings.SliderFloatKey"
+                }
+            ],
+            "$version": "v1"
+        }
+    ]
+}
