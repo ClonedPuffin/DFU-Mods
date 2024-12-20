@@ -318,7 +318,7 @@ namespace SystemOverhaul
                 // The in-game display in Daggerfall of weapon damages with material modifiers is incorrect. The material modifier is half of what the display suggests.
                 damage += (int)(weapon.GetWeaponMaterialModifier() * materialDamageMultiplier);
                 if (damage < 1)
-                    damage = 0;
+                    damage = 1;
 
                 damage += GetBonusOrPenaltyByEnemyType(attacker, target);
 
@@ -337,7 +337,6 @@ namespace SystemOverhaul
                 if (GetEnemyEntityEnemyGroup(target as EnemyEntity) ==  DFCareer.EnemyGroups.Undead)
                 {
                     // Apply silver weapon damage modifier for Undead
-                    // Arena applies a silver weapon damage bonus for undead enemies, which is probably where this comes from.
                     if (weapon.NativeMaterialValue == (int)WeaponMaterialTypes.Silver)
                         damage *= 2;
 
@@ -453,7 +452,7 @@ namespace SystemOverhaul
                 float materialRed = MaterialCheck( target, weapon, attacker == playerEntity);
                 attackMods.damageMod = (int)Mathf.Floor(attackMods.damageMod * materialRed);
 
-                if (attackMods.damageMod <= 0)
+                if (attackMods.damageMod < 1)
                     attackMods.damageMod = 1;
                 Debug.Log(attacker.Name + " attack for " + attackMods.damageMod);
             }
@@ -479,7 +478,7 @@ namespace SystemOverhaul
                     damage += CalculateSuccessfulCrit(attacker, target, null);
                     //resist from armor and endurance
                     damage += CalculateResistance(target, struckBodyPart);
-                    if (damage <= 0)
+                    if (damage < 1)
                         damage = 1;
                 }
                 else
@@ -536,7 +535,7 @@ namespace SystemOverhaul
                         damage += GetBonusOrPenaltyByEnemyType(attacker, target);
                         damage += CalculateSuccessfulCrit(attacker, target, null);
                         damage += CalculateResistance(target, struckBodyPart);
-                        if (damage < 0)
+                        if (damage < 1)
                             damage = 1;
                         Debug.Log(attacker.Name + " attack for " + damage);
                     }

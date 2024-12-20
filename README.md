@@ -48,13 +48,16 @@ Potential Conflicts: Override the class CalculateWeaponToHit()
 Change how endurance affects healing rate from -5/5 to -10/10 to make it matter more and allow the health to regain fully from a nights rest at good but not maxed endurance. Also follows a convention closer to Arena where every 5 points in an attribute matter. 
 
 Potential Conflicts: Override the class HealingRateModifier()
+
 ### Magic Resist
 Change how willpower affect spell resist from -5/5 to -10/10 to follow the convention and make it matter more.
 Potential Conflicts: Override the class Magic Resist()
 
 ### AgilityToHitMod
 Changes chance to hit bonus for agility from negligible -5/5 to -20/20 also changes lucks modification from -5/5 to -10/10. Both values are compared to the enemies values like in default Daggerfall Unity and the difference is the actual change to hit chance. Will most likely add the option to reverse the luck change later.
+
 Potential Conflicts: Override the classes ToHitModifier() and CalculateStatsToHit() (also known as CalculateStatDiffsToHit)
+
 ### New Attack
 By far the largest change. It changes most of the attack roll featuring critical hits, damage reducing resistance system, removed hard material requirments, and redone enemy special resistance.
 
@@ -63,11 +66,11 @@ This setting changes that so all undead take double damage from silver (like Are
 
 **Material Damage Reduction** Instead of being immune to weapons below a specific level the damage will be reduced by 3 / (4 * material levels Bellow Requirement).
 
-**Allow Crits** This enables the chance to deal critical damage and allows you to scale the hit chance and damage for both enemies and the player separately. The base hit chance is  luckMod + skillMod + weaponTypeMod - weaponWeight where luckMod: (attackers Luk - target Luck) / 5, skillMod: critical hit skill / 5, weaponTypeMod: depends on weapon type varies from -4 to 6. weaponWeight: weight of the weapon rounded to the closest integer, -2 if not a weapon with weight.
-Base damage is weaponTypeModDamage + critSkill * weaponMaxDamage / 100 + critSkill / 10, where weaponTypeModDamage varies between weapons from 2 to 8.
+**Allow Crits** This enables the chance to deal critical damage and allows you to scale the hit chance and damage for both enemies and the player separately. The base hit chance is  luckMod + skillMod + weaponTypeMod - weaponWeight where luckMod: (attackers Luck - target Luck) / 5, skillMod: critical hit skill / 5, weaponTypeMod: depends on weapon type varies from -4 to 6. weaponWeight: weight of the weapon rounded to the closest integer, -2 if not a weapon with weight.
+Base damage is added on top of normal damage with the equation weaponTypeModDamage + critSkill * weaponMaxDamage / 100 + critSkill / 10, where weaponTypeModDamage varies between weapons from 2 to 8.
 
 **MaterialDamageMultiplier** change material damage from 1 * modifer to 2 * modifer which is the damage displayed in classic Daggerfall. The multipler is adjustable in the settings.
 
-Additionally a resistance system is introduced which reduce all incoming damage by (endurance - 50) / 10 - AC / 2, A negative AC is good in daggerfall like in older DnD versions so both endurance and AC reduce damage. Will make settings for this system in a later version.
+Additionally a resistance system is introduced which reduce all incoming damage by (endurance - 50) / 10 - AC / 2 to a minimum of 1, A negative AC is good in daggerfall like in older DnD versions so both endurance and AC reduce damage. Will make settings for this system in a later version.
 
 Potential Conflicts: Override the class CalculateAttackDamage(), CalculateWeaponAttackDamage()** this will conflict with simlar mods and also Vanilla Combat Event Handler, would like to work on compability with Vanilla Combat Event Handler once I research it more.
