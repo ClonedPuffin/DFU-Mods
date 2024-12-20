@@ -271,16 +271,18 @@ namespace SystemOverhaul
                 EnemyEntity AIAttacker = attacker as EnemyEntity;
                 short skillID = (short)DFCareer.Skills.HandToHand;
                 int damage = 0;
+                //Select higest damage source
                 weapon = WeaponSelect(AIAttacker, weapon);
                 // Apply mods
-                ToHitAndDamageMods attackMods = new ToHitAndDamageMods();
-                attackMods.damageMod = 0;
-                attackMods.toHitMod = 0;
+                ToHitAndDamageMods attackMods = new ToHitAndDamageMods
+                {
+                    damageMod = 0,
+                    toHitMod = 0
+                };
                 attackMods = isPlayer ? ApplyPlayerMods(attacker, isEnemyFacingAwayFromPlayer, weapon) : attackMods;
 
                 if (weapon == null)
-                {
-                    //Select higest damage source
+                {             
                     attackMods.toHitMod += attacker.Skills.GetLiveSkillValue(skillID);
                     //Damage
                     damage = DealDamageNoWeapon(attacker, target, attackMods, isPlayer);
@@ -552,7 +554,7 @@ namespace SystemOverhaul
                                 : (int) Mathf.Floor( ( CalculateArmorToHit(target, struckBodyPart) - 100 ) / 10f );
 
                 Debug.Log(target.Name + " armor Resist " + armorResist);
-                int enduranceResist = (int)Mathf.Floor(( target.Stats.LiveEndurance - 50 ) / 5f);
+                int enduranceResist = (int)Mathf.Floor(( target.Stats.LiveEndurance - 50 ) / 10f);
                 Debug.Log(target.Name + " endurance Resist " + enduranceResist);
                 return armorResist - enduranceResist;
         }
