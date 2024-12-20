@@ -233,7 +233,7 @@ namespace SystemOverhaul
             }
             //Adjustments to Hit
             if (hitAdjustments)
-                RegisterOverride<Func<DaggerfallEntity, DaggerfallEntity, int>>(mod, "CalculateAdjustmentsToHit"
+                RegisterOverride<Func<DaggerfallEntity, DaggerfallEntity, int>>(mod, "CalculateAdjustmentsToHit" 
                 , (attacker, target) => {
                     PlayerEntity player = GameManager.Instance.PlayerEntity;
                     EnemyEntity AITarget = target as EnemyEntity;
@@ -274,6 +274,8 @@ namespace SystemOverhaul
                 weapon = WeaponSelect(AIAttacker, weapon);
                 // Apply mods
                 ToHitAndDamageMods attackMods = new ToHitAndDamageMods();
+                attackMods.damageMod = 0;
+                attackMods.toHitMod = 0;
                 attackMods = isPlayer ? ApplyPlayerMods(attacker, isEnemyFacingAwayFromPlayer, weapon) : attackMods;
 
                 if (weapon == null)
@@ -285,7 +287,6 @@ namespace SystemOverhaul
                 }
                 else
                 {
-                    attackMods.damageMod = 0;
                     skillID = weapon.GetWeaponSkillIDAsShort();
                     attackMods.toHitMod += attacker.Skills.GetLiveSkillValue(skillID);
 
