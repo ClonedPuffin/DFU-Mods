@@ -12,14 +12,18 @@ Potential Conflicts: Override the class BonusPool()
 
 ### More Starting Health
 Change the health the player will start with.
+
 **Base Health** is the players Base health its 25 in Daggerfall Unity. Default is to change it to 30 to reduce resting in early game and account for crits.
+
 **Endurance Bonus** This will add the bonus health on level up based on permanent endurancefrom character creation to the starting health.
+
 **Bonus Multiplier** multiplies the games default health bonus derived from class max hit points on level up and the endurance bonus by this value. 2 by deafult to reduce early game resting and to account for crits.
 
 Potential Conflicts: Override the class RollMaxHealth()
 
 ### Adjust Spell Points 
 **Base Spell Points** Let the user set a base amount of spellpoints similar to base health, not affected by intelligence or class. 30 by default to mirror health.
+
 **Spell Points Multiplier** Allows the user to change the multiplier for spellpoints for all classes. Stacks multiplicativly with class modifier. 1.5 by default to make relying primarly on magic more viable and less expensive for the player (and reduce resting while allowing a slow regen if using Basic Magic Regen which i recommend)
 
 Potential Conflicts: Override the class SpellPoints()
@@ -53,11 +57,15 @@ Changes chance to hit bonus for agility from negligible -5/5 to -20/20 also chan
 Potential Conflicts: Override the classes ToHitModifier() and CalculateStatsToHit() (also known as CalculateStatDiffsToHit)
 ### New Attack
 By far the largest change. It changes most of the attack roll featuring critical hits, damage reducing resistance system, removed hard material requirments, and redone enemy special resistance.
+
 **More Enemy Damage Modifications**  in the default Daggerfall Unity Skeletal warriors take double damage from silver and half damage from bladed weapons.
-This setting changes that so all undead take double damage from silver (like Arena and Skyrim). Additonally Ghosts and Wraiths will take a third of the damage from all weapons except silver and magical items. Skeletal Warriors still take half damage from blade weapons
-**Material Damage Reduction** Instead of being immune to weapons below a specific level the damage will be reduced by 3 / (4 * material levels Bellow Requirement)
+This setting changes that so all undead take double damage from silver (like Arena and Skyrim). Additonally Ghosts and Wraiths will take a third of the damage from all weapons except silver and magical items. Skeletal Warriors still take half damage from blade weapons.
+
+**Material Damage Reduction** Instead of being immune to weapons below a specific level the damage will be reduced by 3 / (4 * material levels Bellow Requirement).
+
 **Allow Crits** This enables the chance to deal critical damage and allows you to scale the hit chance and damage for both enemies and the player separately. The base hit chance is  luckMod + skillMod + weaponTypeMod - weaponWeight where luckMod: (attackers Luk - target Luck) / 5, skillMod: critical hit skill / 5, weaponTypeMod: depends on weapon type varies from -4 to 6. weaponWeight: weight of the weapon rounded to the closest integer, -2 if not a weapon with weight.
 Base damage is weaponTypeModDamage + critSkill * weaponMaxDamage / 100 + critSkill / 10, where weaponTypeModDamage varies between weapons from 2 to 8.
+
 **MaterialDamageMultiplier** change material damage from 1 * modifer to 2 * modifer which is the damage displayed in classic Daggerfall. The multipler is adjustable in the settings.
 
 Additionally a resistance system is introduced which reduce all incoming damage by (endurance - 50) / 10 - AC / 2, A negative AC is good in daggerfall like in older DnD versions so both endurance and AC reduce damage. Will make settings for this system in a later version.
