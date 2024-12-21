@@ -270,6 +270,7 @@ namespace SystemOverhaul
                 bool isPlayer = attacker == playerEntity;
                 EnemyEntity AIAttacker = attacker as EnemyEntity;
                 short skillID = (short)DFCareer.Skills.HandToHand;
+                int damage = 0;
                 //Select higest damage source
                 weapon = WeaponSelect(AIAttacker, weapon);
                 // Apply mods
@@ -278,13 +279,13 @@ namespace SystemOverhaul
                     damageMod = 0,
                     toHitMod = 0
                 };
-                attackMods = isPlayer ? ApplyPlayerMods(attacker, weapon) : attackMods;
+                attackMods = isPlayer ? ApplyPlayerMods(attacker, isEnemyFacingAwayFromPlayer, weapon) : attackMods;
 
                 if (weapon == null)
                 {             
                     attackMods.toHitMod += attacker.Skills.GetLiveSkillValue(skillID);
                     //Damage
-                    attackMods.damageMod = DealDamageNoWeapon(attacker, target, attackMods, isPlayer);
+                    damage = DealDamageNoWeapon(attacker, target, attackMods, isPlayer);
                 }
                 else
                 {
@@ -296,13 +297,10 @@ namespace SystemOverhaul
                     // Mod hook for adjusting final hit chance mod and adding new elements to calculation. (no-op in DFU)
                     attackMods.toHitMod += AdjustWeaponHitChanceMod(attacker, target, attackMods.toHitMod, weaponAnimTime, weapon);
                     //Damage
-                    attackMods.damageMod = DealDamage(attacker, target, weaponAnimTime, weapon, attackMods, isEnemyFacingAwayFromPlayer);
+                    damage = DealDamage(attacker, target, weaponAnimTime, weapon, attackMods);
                 }
-                ApplyRingOfNamira(attacker, target, attackMods.damageMod);
-                //to be safe
-                if (attackMods.damageMod < 0)
-                    attackMods.damageMod = 0;
-                return attackMods.damageMod;
+                ApplyRingOfNamira(attacker, target, damage);
+                return damage;
             });
 
             RegisterOverride<Func<DaggerfallEntity, DaggerfallEntity, int, int, DaggerfallUnityItem, int>>(mod, "CalculateWeaponAttackDamage"
@@ -319,12 +317,13 @@ namespace SystemOverhaul
                 // Apply material modifier.
                 // The in-game display in Daggerfall of weapon damages with material modifiers is incorrect. The material modifier is half of what the display suggests.
                 damage += (int)(weapon.GetWeaponMaterialModifier() * materialDamageMultiplier);
-                
+                if (damage < 1)
+                    damage = 0;
+
                 damage += GetBonusOrPenaltyByEnemyType(attacker, target);
 
                 // Mod hook for adjusting final weapon damage. (no-op in DFU)
                 damage = AdjustWeaponAttackDamage(attacker, target, damage, weaponAnimTime, weapon);
-                    damage = 1;
 
                 return damage;   
             });
@@ -338,6 +337,7 @@ namespace SystemOverhaul
                 if (GetEnemyEntityEnemyGroup(target as EnemyEntity) ==  DFCareer.EnemyGroups.Undead)
                 {
                     // Apply silver weapon damage modifier for Undead
+                    // Arena applies a silver weapon damage bonus for undead enemies, which is probably where this comes from.
                     if (weapon.NativeMaterialValue == (int)WeaponMaterialTypes.Silver)
                         damage *= 2;
 
@@ -413,16 +413,16 @@ namespace SystemOverhaul
         }
 
         //apply player specific toHit and damage
-        private ToHitAndDamageMods ApplyPlayerMods(DaggerfallEntity attacker, DaggerfallUnityItem weapon)
+        private ToHitAndDamageMods ApplyPlayerMods(DaggerfallEntity attacker, bool isEnemyFacingAwayFromPlayer, DaggerfallUnityItem weapon)
         {
             ToHitAndDamageMods mods = new ToHitAndDamageMods();
 
             ToHitAndDamageMods mods1 = CalculateSwingModifiers(GameManager.Instance.WeaponManager.ScreenWeapon);
             ToHitAndDamageMods mods2 = CalculateProficiencyModifiers(attacker, weapon);
             ToHitAndDamageMods mods3 = CalculateRacialModifiers(attacker, weapon, playerEntity);
-    
+            int modsBC = CalculateBackstabChance(playerEntity, null, isEnemyFacingAwayFromPlayer);
             
-            mods.damageMod = mods1.damageMod+mods2.damageMod+mods3.damageMod;
+            mods.damageMod = CalculateBackstabDamage(mods1.damageMod+mods2.damageMod+mods3.damageMod, modsBC);
             mods.toHitMod = mods1.toHitMod+mods2.toHitMod+mods3.toHitMod;
             
             return mods;
@@ -430,7 +430,7 @@ namespace SystemOverhaul
         }
 
         //weapon normal damage
-        private int DealDamage(DaggerfallEntity attacker, DaggerfallEntity target, int weaponAnimTime, DaggerfallUnityItem weapon, ToHitAndDamageMods attackMods, bool isEnemyFacingAwayFromPlayer)
+        private int DealDamage(DaggerfallEntity attacker, DaggerfallEntity target, int weaponAnimTime, DaggerfallUnityItem weapon, ToHitAndDamageMods attackMods)
         {
             int struckBodyPart = CalculateStruckBodyPart();
             if (CalculateSuccessfulHit(attacker, target, attackMods.toHitMod, struckBodyPart))
@@ -438,12 +438,6 @@ namespace SystemOverhaul
                 attackMods.damageMod += CalculateWeaponAttackDamage(attacker, target, attackMods.damageMod, weaponAnimTime, weapon);
                 //Crit
                 attackMods.damageMod += CalculateSuccessfulCrit(attacker, target, weapon);
-                if (attacker == playerEntity) 
-                {
-                    int backstabbingLevel = CalculateBackstabChance(playerEntity, null, isEnemyFacingAwayFromPlayer);
-                    attackMods.damageMod = CalculateBackstabDamage(attackMods.damageMod, backstabbingLevel);
-                }
-
                 //resist from armor and endurance
                 Debug.Log(attacker.Name + " attack before resist " + attackMods.damageMod);
                 //player has a base ac of +100
@@ -459,7 +453,7 @@ namespace SystemOverhaul
                 float materialRed = MaterialCheck( target, weapon, attacker == playerEntity);
                 attackMods.damageMod = (int)Mathf.Floor(attackMods.damageMod * materialRed);
 
-                if (attackMods.damageMod < 1)
+                if (attackMods.damageMod <= 0)
                     attackMods.damageMod = 1;
                 Debug.Log(attacker.Name + " attack for " + attackMods.damageMod);
             }
@@ -485,7 +479,7 @@ namespace SystemOverhaul
                     damage += CalculateSuccessfulCrit(attacker, target, null);
                     //resist from armor and endurance
                     damage += CalculateResistance(target, struckBodyPart);
-                    if (damage < 1)
+                    if (damage <= 0)
                         damage = 1;
                 }
                 else
@@ -542,7 +536,7 @@ namespace SystemOverhaul
                         damage += GetBonusOrPenaltyByEnemyType(attacker, target);
                         damage += CalculateSuccessfulCrit(attacker, target, null);
                         damage += CalculateResistance(target, struckBodyPart);
-                        if (damage < 1)
+                        if (damage < 0)
                             damage = 1;
                         Debug.Log(attacker.Name + " attack for " + damage);
                     }
@@ -605,12 +599,17 @@ namespace SystemOverhaul
             ToHitAndDamageMods weaponTypeMod = WeaponBaseToHit(weaponSkill);
             
             int critRoll = (int)(toHitMultiplier * ( luckMod + skillMod + weaponTypeMod.toHitMod + weaponToHit ));
-            if(Dice100.SuccessRoll(critRoll))
+            if (Dice100.SuccessRoll(critRoll))
             {
-                
+                string critMessageString;
                 damage = (int)(damageMultiplier * ( weaponTypeMod.damageMod + ( critSkill * (weaponDamage / 100f + 1/10f ) ) ));
-
-                string critMessageString = isPlayer ? "You deal a critical hit." : attacker.Name + "deals a critical hit.";
+                if (isPlayer){
+                    playerEntity.TallySkill(DFCareer.Skills.CriticalStrike, 1);
+                    critMessageString = "You deal a critical hit.";
+                }
+                else{
+                    critMessageString = attacker.Name + "deals a critical hit.";
+                }
                 DaggerfallUI.Instance.PopupMessage(critMessageString);
             }
             return damage;
